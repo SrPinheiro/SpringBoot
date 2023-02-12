@@ -2,23 +2,33 @@ package com.javaWeb.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="tb_order")
 public class Order implements Serializable {
+	private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Instant moment;
-    private OrderStatus orderStatus;
+    // private OrderStatus orderStatus;
 
-    public Order(Long id, Instant moment, OrderStatus orderStatus) {
+    @ManyToOne
+    @JoinColumn(name="client_id")
+    private User client;
+
+    public Order(Long id, Instant moment) {
         this.id = id;
         this.moment = moment;
-        this.orderStatus = orderStatus;
+        // this.orderStatus = orderStatus;
     }
 
     public Order(){
@@ -45,13 +55,13 @@ public class Order implements Serializable {
         this.moment = moment;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
+    // public OrderStatus getOrderStatus() {
+    //     return orderStatus;
+    // }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
+    // public void setOrderStatus(OrderStatus orderStatus) {
+    //     this.orderStatus = orderStatus;
+    // }
 
     @Override
     public int hashCode() {
@@ -59,7 +69,7 @@ public class Order implements Serializable {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((moment == null) ? 0 : moment.hashCode());
-        result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
+        // result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
         return result;
     }
 
@@ -82,11 +92,11 @@ public class Order implements Serializable {
                 return false;
         } else if (!moment.equals(other.moment))
             return false;
-        if (orderStatus == null) {
-            if (other.orderStatus != null)
-                return false;
-        } else if (!orderStatus.equals(other.orderStatus))
-            return false;
+        // if (orderStatus == null) {
+        //     if (other.orderStatus != null)
+        //         return false;
+        // } else if (!orderStatus.equals(other.orderStatus))
+        //     return false;
         return true;
     }   
     

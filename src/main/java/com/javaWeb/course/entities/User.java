@@ -1,22 +1,17 @@
 package com.javaWeb.course.entities;
 
 import java.io.Serializable;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-=======
-import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
->>>>>>> 88c5b2dfd526d1a3b11cf10a12f628ebed93049a
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -32,11 +27,10 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
-<<<<<<< HEAD
-	// private List<Order> orders = new ArrayList<>();
-=======
->>>>>>> 88c5b2dfd526d1a3b11cf10a12f628ebed93049a
-	
+
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
+
 	public User(Long id, String name, String email, String phone, String password) {
 		this.id = id;
 		this.name = name;
@@ -88,14 +82,10 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-<<<<<<< HEAD
 	// public List<Order> getOrders() {
 	// 	return orders;
 	// }
 
-=======
->>>>>>> 88c5b2dfd526d1a3b11cf10a12f628ebed93049a
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
