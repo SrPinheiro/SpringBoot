@@ -1,10 +1,11 @@
 package com.javaWeb.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	// private List<Order> orders = new ArrayList<>();
 	
 	public User(Long id, String name, String email, String phone, String password) {
 		this.id = id;
@@ -76,6 +78,10 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	// public List<Order> getOrders() {
+	// 	return orders;
+	// }
 
 	@Override
 	public int hashCode() {
