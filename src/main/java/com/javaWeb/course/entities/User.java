@@ -2,6 +2,9 @@ package com.javaWeb.course.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +31,10 @@ public class User implements Serializable {
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
+	}
+
+	public User(){
+		
 	}
 
 	public Long getId() {
@@ -86,4 +93,16 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
+	
+	@JsonIgnore
+	public boolean isValid(){
+		return (this.name != null) && (this.email) != null && (this.password != null);
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password
+				+ "]";
+	}
+
 }
