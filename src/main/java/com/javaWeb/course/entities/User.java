@@ -1,11 +1,18 @@
 package com.javaWeb.course.entities;
 
 import java.io.Serializable;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+=======
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+>>>>>>> 88c5b2dfd526d1a3b11cf10a12f628ebed93049a
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +32,10 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+<<<<<<< HEAD
 	// private List<Order> orders = new ArrayList<>();
+=======
+>>>>>>> 88c5b2dfd526d1a3b11cf10a12f628ebed93049a
 	
 	public User(Long id, String name, String email, String phone, String password) {
 		this.id = id;
@@ -79,10 +89,13 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+<<<<<<< HEAD
 	// public List<Order> getOrders() {
 	// 	return orders;
 	// }
 
+=======
+>>>>>>> 88c5b2dfd526d1a3b11cf10a12f628ebed93049a
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
