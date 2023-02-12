@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,12 @@ public class UserResource {
 		List<User> listUsers = service.findAll();
 
 		return ResponseEntity.ok().body(listUsers);		
+	}
+
+	@GetMapping(value="/{id}")
+	public ResponseEntity<User> findById(@PathVariable Long id){
+		User u = service.findById(id);
+		return u != null ? ResponseEntity.ok().body(u) : ResponseEntity.badRequest().body(null);
 	}
 
 	@PostMapping

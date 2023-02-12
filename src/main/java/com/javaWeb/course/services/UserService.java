@@ -1,9 +1,10 @@
 package com.javaWeb.course.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.javaWeb.course.entities.User;
 import com.javaWeb.course.repositories.UserRepository;
 
@@ -20,5 +21,9 @@ public class UserService {
 
     public User CreateUser(User u){
         return users.save(u);
+    }
+
+    public User findById(Long id){
+        return users.findById(id).get();
     }
 }
