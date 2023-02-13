@@ -2,7 +2,14 @@ package com.javaWeb.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+
+import ch.qos.logback.core.net.server.Client;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,17 +25,20 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
     private Instant moment;
-    // private OrderStatus orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     @ManyToOne
     @JoinColumn(name="client_id")
     private User client;
 
-    public Order(Long id, Instant moment) {
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.id = id;
         this.moment = moment;
-        // this.orderStatus = orderStatus;
+        this.client = client;
+        this.orderStatus = orderStatus;
     }
 
     public Order(){
@@ -55,13 +65,15 @@ public class Order implements Serializable {
         this.moment = moment;
     }
 
-    // public OrderStatus getOrderStatus() {
-    //     return orderStatus;
-    // }
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
 
-    // public void setOrderStatus(OrderStatus orderStatus) {
-    //     this.orderStatus = orderStatus;
-    // }
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    
 
     @Override
     public int hashCode() {
@@ -69,8 +81,16 @@ public class Order implements Serializable {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((moment == null) ? 0 : moment.hashCode());
-        // result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
+        result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
         return result;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
     }
 
     @Override
@@ -92,11 +112,11 @@ public class Order implements Serializable {
                 return false;
         } else if (!moment.equals(other.moment))
             return false;
-        // if (orderStatus == null) {
-        //     if (other.orderStatus != null)
-        //         return false;
-        // } else if (!orderStatus.equals(other.orderStatus))
-        //     return false;
+        if (orderStatus == null) {
+            if (other.orderStatus != null)
+                return false;
+        } else if (!orderStatus.equals(other.orderStatus))
+            return false;
         return true;
     }   
     

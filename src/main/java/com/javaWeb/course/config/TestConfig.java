@@ -1,12 +1,16 @@
 package com.javaWeb.course.config;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import com.github.javafaker.Faker;
+import com.javaWeb.course.entities.Order;
+import com.javaWeb.course.entities.OrderStatus;
 import com.javaWeb.course.entities.User;
+import com.javaWeb.course.repositories.OrderRepository;
 import com.javaWeb.course.repositories.UserRepository;
 
 @Configuration
@@ -16,34 +20,39 @@ public class TestConfig implements CommandLineRunner{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @Override
     public void run(String... args) throws Exception {
-		Faker gerador = new Faker();
-
-        User u1 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u2 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u3 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u4 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u5 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u6 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u7 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u8 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u9 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		User u10 = new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password());
-		
-		ArrayList<User> li = new ArrayList<>();
-		li.add(u1);
-		li.add(u2);
-		li.add(u3);
-		li.add(u4);
-		li.add(u5);
-		li.add(u6);
-		li.add(u7);
-		li.add(u8);
-		li.add(u9);
-		li.add(u10);
-
-		userRepository.saveAll(li);
+		addUsers();
+		addOrders();
         
     }
+
+
+	private void addOrders() {		
+		ArrayList<Order> li = new ArrayList<>();
+
+		for(int i = 0; i <= 10; i++)
+			li.add(new Order(null,Instant.now(), OrderStatus.WAITING_PAYMENT ,userRepository.findById( (long)(1+Math.random()*9) ).get()));
+		
+		orderRepository.saveAll(li);
+	}
+
+
+	public void addUsers(){
+		Faker gerador = new Faker();
+		ArrayList<User> li = new ArrayList<>();
+
+
+		for(int i = 0; i <= 10; i++)
+        	li.add(new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password()));
+
+		userRepository.saveAll(li);
+		
+
+		
+
+	}
 }
