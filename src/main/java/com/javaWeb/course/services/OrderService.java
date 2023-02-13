@@ -18,7 +18,7 @@ public class OrderService {
         
     }
 
-    public Order CreateUser(Order u){
+    public Order CreateOrder(Order u){
         return orders.save(u);
     }
 

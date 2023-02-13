@@ -118,6 +118,11 @@ public class Order implements Serializable {
         } else if (!orderStatus.equals(other.orderStatus))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Order [id=" + id + ", moment=" + moment + ", orderStatus=" + orderStatus + ", client=" + client + "]";
     }   
     
 
