@@ -12,9 +12,11 @@ import com.github.javafaker.Faker;
 import com.javaWeb.course.entities.Category;
 import com.javaWeb.course.entities.Order;
 import com.javaWeb.course.entities.OrderStatus;
+import com.javaWeb.course.entities.Product;
 import com.javaWeb.course.entities.User;
 import com.javaWeb.course.repositories.CategoryRepository;
 import com.javaWeb.course.repositories.OrderRepository;
+import com.javaWeb.course.repositories.ProductRepository;
 import com.javaWeb.course.repositories.UserRepository;
 
 @Configuration
@@ -29,12 +31,17 @@ public class TestConfig implements CommandLineRunner{
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
+
+	public static Faker gerador = new Faker(new Locale("pt-br"));
 
     @Override
     public void run(String... args) throws Exception {
 		addUsers();
 		addOrders();
         addCategory(); 
+		addProducts();
     }
 
 
@@ -49,8 +56,6 @@ public class TestConfig implements CommandLineRunner{
 
 
 	public void addUsers(){
-		Faker gerador = new Faker(new Locale("pt-br"));
-
 		ArrayList<User> li = new ArrayList<>();
 
 
@@ -62,13 +67,20 @@ public class TestConfig implements CommandLineRunner{
 	}
 
 	public void addCategory(){
-		Faker gerador = new Faker(new Locale("pt-br"));
-		
 		ArrayList<Category> li = new ArrayList<>();
 
 		for(int i = 0; i <= 10; i++)
 			li.add( new Category(null, gerador.commerce().department()));
 
 		categoryRepository.saveAll(li);
+	}
+
+	public void addProducts(){
+		ArrayList<Product> li = new ArrayList<>();
+		
+		for(int i = 0; i<=10; i++)
+			li.add(new Product(null, gerador.commerce().productName(),gerador.aviation().METAR() , 100 + Math.random() * 3423 ,gerador.internet().avatar()));
+
+		productRepository.saveAll(li);
 	}
 }
