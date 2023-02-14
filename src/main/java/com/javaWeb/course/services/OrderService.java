@@ -11,18 +11,23 @@ import com.javaWeb.course.repositories.OrderRepository;
 @Service
 public class OrderService {
     @Autowired
-    private OrderRepository orders;
+    private OrderRepository repository;
 
     public List<Order> findAll(){
-        return orders.findAll();
+        return repository.findAll();
         
     }
 
     public Order CreateOrder(Order u){
-        return orders.save(u);
+        return repository.save(u);
     }
 
     public Order findById(Long id){
-        return orders.findById(id).get();
+        return repository.findById(id).get();
     }
+
+    public boolean existsById(Long id){
+        return repository.existsById(id);
+    }
+
 }

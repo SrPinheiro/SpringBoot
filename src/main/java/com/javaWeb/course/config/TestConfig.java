@@ -50,9 +50,6 @@ public class TestConfig implements CommandLineRunner{
         	li.add(new User(null, gerador.name().fullName(), gerador.internet().emailAddress(), gerador.phoneNumber().cellPhone(), gerador.internet().password()));
 
 		userRepository.saveAll(li);
-		
-
-		
-
+	
 	}
 }

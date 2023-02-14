@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.javaWeb.course.DTO.UserDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class User implements Serializable {
 	private String password;
 
 	@OneToMany(mappedBy = "client")
+	@JsonIgnore
 	private List<Order> orders = new ArrayList<>();
 
 	public User(Long id, String name, String email, String phone, String password) {
@@ -82,9 +84,9 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	// public List<Order> getOrders() {
-	// 	return orders;
-	// }
+	public List<Order> getOrders() {
+		return orders;
+	}
 
 	@Override
 	public int hashCode() {
@@ -105,13 +107,16 @@ public class User implements Serializable {
 	
 	@JsonIgnore
 	public boolean isValid(){
-		return (this.name != null) && (this.email) != null && (this.password != null);
+		return (this.name != null) && (this.email != null);
+	}
+
+	public UserDTO toUserDTO(){
+		return new UserDTO(name,email,phone);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password
-				+ "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + "]";
 	}
 
 }

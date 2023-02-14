@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
-
-import ch.qos.logback.core.net.server.Client;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,8 +24,7 @@ public class Order implements Serializable {
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
     private Instant moment;
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private Integer orderStatus;
 
     @ManyToOne
     @JoinColumn(name="client_id")
@@ -38,16 +34,12 @@ public class Order implements Serializable {
         this.id = id;
         this.moment = moment;
         this.client = client;
-        this.orderStatus = orderStatus;
+        this.orderStatus = orderStatus.getCode();
     }
 
     public Order(){
 
     }
-
-    // public double total() {
-
-    // }
 
     public Long getId() {
         return id;
@@ -66,14 +58,14 @@ public class Order implements Serializable {
     }
 
     public OrderStatus getOrderStatus() {
-        return orderStatus;
+        if (orderStatus != null)
+            return OrderStatus.valueOf(orderStatus);
+        return null;
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+        this.orderStatus = orderStatus.getCode();
     }
-
-    
 
     @Override
     public int hashCode() {
