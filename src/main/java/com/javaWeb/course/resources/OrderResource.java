@@ -17,7 +17,7 @@ import com.javaWeb.course.services.OrderService;
 import com.javaWeb.course.services.UserService;
 
 @RestController
-@RequestMapping(value="/order")
+@RequestMapping(value="/orders")
 public class OrderResource {
     @Autowired
     private OrderService orderService;
