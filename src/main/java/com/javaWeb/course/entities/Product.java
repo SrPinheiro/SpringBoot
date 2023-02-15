@@ -3,12 +3,17 @@ package com.javaWeb.course.entities;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="tb_product")
@@ -23,7 +28,10 @@ public class Product implements Serializable {
     private double price;
     private String imgURL;
 
-    @Transient //impedir que o jpa interprete
+    @ManyToMany
+    @JoinTable(name = "tb_product_category", //Nome da tabela 
+    joinColumns = @JoinColumn(name="product_id"), //Chave primaria do produto
+    inverseJoinColumns = @JoinColumn(name="category_id")) //chave primaria da categoria
     private Set<Category> categories = new HashSet<>();
 
     public Product(){
@@ -69,17 +77,15 @@ public class Product implements Serializable {
         this.imgURL = imgURL;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(price);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + ((imgURL == null) ? 0 : imgURL.hashCode());
         return result;
     }
 
@@ -97,24 +103,9 @@ public class Product implements Serializable {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
-            return false;
-        if (imgURL == null) {
-            if (other.imgURL != null)
-                return false;
-        } else if (!imgURL.equals(other.imgURL))
-            return false;
         return true;
-    }   
+    }
+
+    
     
 }

@@ -1,5 +1,7 @@
 package com.javaWeb.course.config;
 
+
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,6 +44,7 @@ public class TestConfig implements CommandLineRunner{
 		addOrders();
         addCategory(); 
 		addProducts();
+		// addProducts_category();
     }
 
 
@@ -77,10 +80,19 @@ public class TestConfig implements CommandLineRunner{
 
 	public void addProducts(){
 		ArrayList<Product> li = new ArrayList<>();
-		
+
 		for(int i = 0; i<=10; i++)
 			li.add(new Product(null, gerador.commerce().productName(),gerador.aviation().METAR() , 100 + Math.random() * 3423 ,gerador.internet().avatar()));
 
 		productRepository.saveAll(li);
+
+		for(Product p : li){
+			for(int i = 0; i <= (int)(1 + Math.random() * 9); i++)
+					p.getCategories().add(categoryRepository.findById((long)(1 + Math.random() * 9)).get());
+
+		}
+		productRepository.saveAll(li);
+
 	}
+
 }
