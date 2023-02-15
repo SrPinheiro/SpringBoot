@@ -3,9 +3,7 @@ package com.javaWeb.course.entities;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +27,7 @@ public class Product implements Serializable {
     private String imgURL;
 
     @ManyToMany
+    @JsonManagedReference //Mostrara as categorias aqui
     @JoinTable(name = "tb_product_category", //Nome da tabela 
     joinColumns = @JoinColumn(name="product_id"), //Chave primaria do produto
     inverseJoinColumns = @JoinColumn(name="category_id")) //chave primaria da categoria
@@ -65,7 +64,7 @@ public class Product implements Serializable {
         this.description = description;
     }
     public double getPrice() {
-        return price;
+        return Double.valueOf(String.format("%.2f", this.price).replace(",", "."));
     }
     public void setPrice(double price) {
         this.price = price;

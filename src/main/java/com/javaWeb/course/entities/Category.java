@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +22,7 @@ public class Category implements Serializable {
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "categories")
-    @JsonIgnore
+    @JsonBackReference //nao ira mostar os produtos aqui
     private Set<Product> products = new HashSet<>();
 
     public Category(){
